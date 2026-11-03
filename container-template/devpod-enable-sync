@@ -3,5 +3,5 @@ set -euo pipefail
 source /etc/devpod-env
 ob sync-status --path /workspace/vaults/gobo-vault --json >/dev/null
 # This script only prepares opt-in configuration; root supervisord owns the writer.
-printf '[program:obsidian-sync]\ncommand=/workspace/toolchains/current/bin/ob sync --path /workspace/vaults/gobo-vault --continuous\nuser=dev\nenvironment=HOME="/workspace/home/dev",PATH="/workspace/toolchains/current/bin:/usr/bin:/bin"\nautorestart=true\nstdout_logfile=/workspace/state/obsidian-sync.log\nstderr_logfile=/workspace/state/obsidian-sync-error.log\n' | sudo tee /workspace/state/obsidian-sync.conf >/dev/null
+printf '[program:obsidian-sync]\ncommand=/workspace/toolchains/current/bin/ob sync --path /workspace/vaults/gobo-vault --continuous\nuser=dev\nenvironment=HOME="/workspace/home/dev",PATH="/workspace/toolchains/current/bin:/usr/bin:/bin"\nautorestart=true\nstdout_logfile=/workspace/state/obsidian-sync.log\nstderr_logfile=/workspace/state/obsidian-sync-error.log\n' | tee /workspace/state/obsidian-sync.conf >/dev/null
 printf 'Bound replica verified. Restart this Pod during authorized compute time to activate its one managed Sync writer.\n'

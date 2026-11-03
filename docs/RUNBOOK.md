@@ -95,3 +95,13 @@ Every deployment needs an independently verified stop guard outside this disposa
 an absolute deadline and total cost bound. A reusable template grants no spending authority.
 Stopped compute does not cancel retained network storage. Never infer stop success from a timer
 alone: read provider status and verify runtime is gone. Source and private volume survive.
+
+## NFS ownership contract
+
+HIGH_PERFORMANCE NFS rejects runtime chown. The r4.2 bootstrap creates persistent user
+files directly as UID 1000, keeps HOME/state/vault directories private, and uses a separate
+writable user-tool prefix. It never recursively changes an existing volume owner. Local
+named-volume tests prepare a fresh writable volume and verify initialization without the
+chown capability. Existing root-owned factory state requires an explicit reviewed repair;
+there is no automatic ownership sweep. Image release and immutable toolchain release are
+separate, so the fixed image reuses the same known tool versions without upgrading agents.

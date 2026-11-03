@@ -12,6 +12,9 @@ ssh-keygen -q -t ed25519 -N '' -f "$temp/key"
 public_key=$(cat "$temp/key.pub")
 ssh-keygen -q -t ed25519 -N '' -f "$temp/human-key"
 docker volume create "$volume" >/dev/null
+docker run --rm --entrypoint chmod -v "$volume:/workspace" "$image" 1777 /workspace
+# Exercise initialization with chown capability absent, matching the NFS limitation.
+docker run --rm --cap-drop CHOWN --entrypoint runuser -v "$volume:/workspace" "$image" -u dev -- /usr/bin/python3 /opt/devpod/bootstrap.py
 if docker run --pull=never --rm "$image" >"$out/missing-mount.log" 2>&1; then
  echo 'ERROR: unmounted bootstrap unexpectedly succeeded' >&2; exit 1
 fi

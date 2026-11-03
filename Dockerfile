@@ -2,7 +2,7 @@
 ARG UBUNTU_IMAGE=ubuntu:24.04
 FROM ${UBUNTU_IMAGE} AS common
 ENV DEBIAN_FRONTEND=noninteractive LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 TZ=Etc/UTC
-RUN apt-get update && apt-get install -y --no-install-recommends bash ca-certificates openssh-server supervisor tini sudo locales tzdata vim git tmux less man-db findutils file tree ripgrep jq curl wget rsync unzip zip xz-utils bzip2 procps htop lsof iproute2 net-tools dnsutils iputils-ping build-essential python3 python3-venv python3-pip docker.io caddy nginx && locale-gen en_US.UTF-8 && rm -rf /var/lib/apt/lists/* && (userdel ubuntu || true) && useradd --uid 1000 --create-home --home-dir /workspace/home/dev --shell /bin/bash dev && passwd -d dev
+RUN apt-get update && apt-get install -y --no-install-recommends bash ca-certificates openssh-server supervisor tini sudo locales tzdata vim git tmux less man-db findutils file tree ripgrep jq curl wget rsync unzip zip xz-utils bzip2 procps htop lsof iproute2 net-tools dnsutils iputils-ping build-essential python3 python3-venv python3-pip docker.io caddy nginx && locale-gen en_US.UTF-8 && rm -rf /var/lib/apt/lists/* && (userdel ubuntu || true) && useradd --uid 1000 --no-create-home --home-dir /workspace/home/dev --shell /bin/bash dev && passwd -d dev
 COPY shared/tools.lock.json /opt/devpod/tools.lock.json
 COPY shared/npm/ /opt/devpod/npm/
 COPY container-template/ /opt/devpod/

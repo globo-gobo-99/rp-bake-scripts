@@ -11,8 +11,9 @@ def verify_mount(root):
         raise RuntimeError(f'Expected durable mount at {root}; refusing ephemeral bootstrap')
 
 def initialize(root,seed,release):
-    for name in ['home/dev','toolchains','state','state/tailscale','vaults','vaults/gobo-vault']:
+    for name in ['home/dev','toolchains','toolchains/user','state','state/tailscale','vaults','vaults/gobo-vault']:
         (root/name).mkdir(parents=True,exist_ok=True)
+    (root/'home').chmod(0o711)
     for name in ['home/dev','state','vaults']:
         (root/name).chmod(0o700)
     destination=root/'toolchains'/release
@@ -32,12 +33,7 @@ def initialize(root,seed,release):
     return home
 
 if __name__=='__main__':
+    if os.geteuid()!=1000:raise RuntimeError('Bootstrap must create persistent files directly as developer UID 1000')
     root=Path('/workspace'); verify_mount(root)
     lock=json.loads(Path('/opt/devpod/tools.lock.json').read_text())
     initialize(root,Path('/opt/devpod/seed'),lock['release'])
-    # Only new top-level paths and seeded tools are ours; never recurse into a live vault.
-    for name in ['home','home/dev','toolchains','state','vaults','vaults/gobo-vault']:
-        os.chown(root/name,1000,1000)
-    for name in ['.bashrc','.profile','.tmux.conf']:
-        os.chown(root/'home/dev'/name,1000,1000)
-    subprocess.run(['chown','-R','1000:1000',str(root/'toolchains'/lock['release'])],check=True)
