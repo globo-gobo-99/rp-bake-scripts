@@ -12,15 +12,15 @@ ssh-keygen -q -t ed25519 -N '' -f "$temp/key"
 public_key=$(cat "$temp/key.pub")
 ssh-keygen -q -t ed25519 -N '' -f "$temp/human-key"
 docker volume create "$volume" >/dev/null
-docker run --rm --entrypoint chmod -v "$volume:/workspace" "$image" 1777 /workspace
+docker run --rm --entrypoint chmod --mount "type=volume,source=$volume,target=/workspace,volume-nocopy" "$image" 1777 /workspace
 # Exercise initialization with chown capability absent, matching the NFS limitation.
-docker run --rm --cap-drop CHOWN --entrypoint runuser -v "$volume:/workspace" "$image" -u dev -- /usr/bin/python3 /opt/devpod/bootstrap.py
+docker run --rm --cap-drop CHOWN --entrypoint runuser --mount "type=volume,source=$volume,target=/workspace,volume-nocopy" "$image" -u dev -- /usr/bin/python3 /opt/devpod/bootstrap.py
 if docker run --pull=never --rm "$image" >"$out/missing-mount.log" 2>&1; then
  echo 'ERROR: unmounted bootstrap unexpectedly succeeded' >&2; exit 1
 fi
 grep -F 'Expected durable mount' "$out/missing-mount.log"
 start() {
- docker run --pull=never -d --name "$name" -p 127.0.0.1::22 -e PUBLIC_KEY="$public_key" -v "$volume:/workspace" "$image" >/dev/null
+ docker run --pull=never -d --name "$name" -p 127.0.0.1::22 -e PUBLIC_KEY="$public_key" --mount "type=volume,source=$volume,target=/workspace,volume-nocopy" "$image" >/dev/null
  port=$(docker port "$name" 22/tcp | cut -d: -f2)
  for i in {1..60}; do
   if ssh -i "$temp/key" -o BatchMode=yes -o ConnectTimeout=1 -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile="$temp/known-$port" -p "$port" dev@127.0.0.1 'test "$(id -un)" = dev; test "$HOME" = /workspace/home/dev' 2>/dev/null; then return 0; fi
