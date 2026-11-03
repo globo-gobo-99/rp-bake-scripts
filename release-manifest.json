@@ -1,10 +1,10 @@
 {
-  "release": "2026.11.02-r4.1",
-  "build_commit": "7fbb1298ebe3490fe752afbdbdc1e74542481666",
-  "verification_run": "https://github.com/gobo-99/dev-pod/actions/runs/41554192979",
+  "release": "2026.11.02-r4.2",
+  "build_commit": "730a5be3166559069efa401dbfb630978db3e6f9",
+  "verification_run": "https://github.com/gobo-99/dev-pod/actions/runs/41557483597",
   "images": {
-    "devpod": "ghcr.io/gobo-99/dev-pod@sha256:f4905cf125b0a4446e78736b99e82247a4b0440a15d9a71ca8c9277a6f3f9489",
-    "testpod": "ghcr.io/gobo-99/test-pod@sha256:19e72b3f3749eb4ba0f5dca1224975fd10c05b21812ce7793cf718bc7039ecd9"
+    "devpod": "ghcr.io/gobo-99/dev-pod@sha256:22f49f0f4f5b31f09d66a2ae54f1d9242cd6a4eb14632cb91497065b8fa991b4",
+    "testpod": "ghcr.io/gobo-99/test-pod@sha256:373068aca5c3207119895b8d3f2482891502ecd2e5cd11221cd6edae03cefc9e"
   },
   "software_manifest": {
     "tools": {

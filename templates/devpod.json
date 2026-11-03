@@ -1,6 +1,6 @@
 {
-  "name": "devpod-2026.11.02-r4.1",
-  "image": "ghcr.io/gobo-99/dev-pod@sha256:f4905cf125b0a4446e78736b99e82247a4b0440a15d9a71ca8c9277a6f3f9489",
+  "name": "devpod-2026.11.02-r4.2",
+  "image": "ghcr.io/gobo-99/dev-pod@sha256:22f49f0f4f5b31f09d66a2ae54f1d9242cd6a4eb14632cb91497065b8fa991b4",
   "category": "CPU",
   "disk": 10,
   "ports": [

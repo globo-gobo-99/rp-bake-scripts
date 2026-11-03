@@ -29,7 +29,12 @@ Upstream reviewed: runpod/containers `d16ed4df6a254fb87932cfae81551240dd8791cd`.
 Image OS packages are rebuildable layers; valuable home/tools/source live on a separately
 mounted private `/workspace`. Fresh image boots never run apt or upgrade active agents.
 
-Release `2026.11.02-r4.1` passed [CI build and SSH replacement recovery](https://github.com/gobo-99/dev-pod/actions/runs/41554192979). See [resolved image/software manifest](release-manifest.json). GHCR package visibility is an owner checkpoint; verify anonymous digest access before deployment.
+Release `2026.11.02-r4.2` passed [CI build, UID initialization and SSH replacement recovery](https://github.com/gobo-99/dev-pod/actions/runs/41557483597). See the [resolved image/software manifest](release-manifest.json).
 
-The r4.1 image has a verified HIGH_PERFORMANCE NFS ownership defect. Runtime initialization
-is fixed in r4.2; its validation/publish receipt supersedes r4.1 for new deployments.
+Persistent files are created directly as developer UID 1000; HIGH_PERFORMANCE NFS rejects
+runtime chown. The immutable toolchain release is reused across image repairs, with a separate
+writable user-tool prefix. The older r4.1 image has the NFS ownership defect and is superseded.
+
+GHCR supports private pulls through Runpod's native registry credentials. Keep the account's
+registry ID in private launch configuration; never check it into these portable definitions.
+The owner can separately make packages public for anonymous reuse.

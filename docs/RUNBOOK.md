@@ -57,9 +57,9 @@ connection are separate checks. No code-server substitution.
 Tailscale runs in userspace mode without adding container privileges. For fresh enrollment:
 
 ```bash
-sudo /workspace/toolchains/current/bin/tailscale --socket=/workspace/state/tailscale/tailscaled.sock up --hostname=dev-pod
+/workspace/toolchains/current/bin/tailscale --socket=/workspace/state/tailscale/tailscaled.sock up --hostname=dev-pod
 # Complete the displayed login link yourself, then:
-sudo /workspace/toolchains/current/bin/tailscale --socket=/workspace/state/tailscale/tailscaled.sock serve --bg --tcp=22 tcp://127.0.0.1:22
+/workspace/toolchains/current/bin/tailscale --socket=/workspace/state/tailscale/tailscaled.sock serve --bg --tcp=22 tcp://127.0.0.1:22
 ```
 
 The tailnet state persists on the private volume. No copied old-node identity or policy changes.
