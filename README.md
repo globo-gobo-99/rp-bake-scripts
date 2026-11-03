@@ -28,3 +28,5 @@ anonymous pull access. Consume a verified `@sha256:...` digest for provider temp
 Upstream reviewed: runpod/containers `d16ed4df6a254fb87932cfae81551240dd8791cd`.
 Image OS packages are rebuildable layers; valuable home/tools/source live on a separately
 mounted private `/workspace`. Fresh image boots never run apt or upgrade active agents.
+
+Release `2026.11.02-r4.1` passed [CI build and SSH replacement recovery](https://github.com/gobo-99/dev-pod/actions/runs/41554192979). See [resolved image/software manifest](release-manifest.json). GHCR package visibility is an owner checkpoint; verify anonymous digest access before deployment.

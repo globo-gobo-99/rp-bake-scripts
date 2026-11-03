@@ -1,6 +1,6 @@
 {
   "name": "devpod-2026.11.02-r4.1",
-  "image": "ghcr.io/gobo-99/dev-pod:2026.11.02-r4.1",
+  "image": "ghcr.io/gobo-99/dev-pod@sha256:f4905cf125b0a4446e78736b99e82247a4b0440a15d9a71ca8c9277a6f3f9489",
   "category": "CPU",
   "disk": 10,
   "ports": [
@@ -10,7 +10,7 @@
     "DEVPOD_ROLE": "devpod"
   },
   "serverless": false,
-  "public": true,
+  "public": false,
   "startSsh": true,
   "startJupyter": false
 }

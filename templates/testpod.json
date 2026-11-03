@@ -1,6 +1,6 @@
 {
   "name": "testpod-2026.11.02-r4.1",
-  "image": "ghcr.io/gobo-99/test-pod:2026.11.02-r4.1",
+  "image": "ghcr.io/gobo-99/test-pod@sha256:19e72b3f3749eb4ba0f5dca1224975fd10c05b21812ce7793cf718bc7039ecd9",
   "category": "CPU",
   "disk": 10,
   "ports": [
@@ -10,7 +10,7 @@
     "DEVPOD_ROLE": "testpod"
   },
   "serverless": false,
-  "public": true,
+  "public": false,
   "startSsh": true,
   "startJupyter": false
 }
