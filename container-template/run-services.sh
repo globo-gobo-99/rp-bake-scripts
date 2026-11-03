@@ -9,4 +9,7 @@ fi
 if [[ -f /workspace/state/obsidian-sync.conf ]]; then
  cat /workspace/state/obsidian-sync.conf >> /workspace/state/supervisord-active.conf
 fi
+if compgen -G '/workspace/state/services/*.conf' >/dev/null; then
+ cat /opt/devpod/applications.conf >> /workspace/state/supervisord-active.conf
+fi
 exec /usr/bin/supervisord -n -c /workspace/state/supervisord-active.conf

@@ -25,6 +25,7 @@ jobs:
         run: |
           bash tests/smoke.sh
           bash tests/smoke.sh testpod
+          bash tests/service-recovery.sh
           bash tests/git-delivery.sh
       - uses: actions/upload-artifact@v4
         if: always()

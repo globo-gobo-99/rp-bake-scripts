@@ -11,7 +11,7 @@ def verify_mount(root):
         raise RuntimeError(f'Expected durable mount at {root}; refusing ephemeral bootstrap')
 
 def initialize(root,seed,release):
-    for name in ['home/dev','toolchains','toolchains/user','state','state/tailscale','vaults','vaults/gobo-vault']:
+    for name in ['home/dev','toolchains','toolchains/user','state','state/services','state/tailscale','vaults','vaults/gobo-vault']:
         (root/name).mkdir(parents=True,exist_ok=True)
     (root/'home').chmod(0o711)
     for name in ['home/dev','state','vaults']:

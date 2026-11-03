@@ -12,7 +12,9 @@ EXPOSE 22
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/opt/devpod/start.sh"]
 FROM common AS testpod
-RUN printf '{"role":"testpod","runtime":"python3","base":"Ubuntu 24.04"}\n' > /opt/devpod/image-manifest.json && mkdir -p /opt/devpod/seed/bin
+RUN python3 /opt/devpod/install-tools.py --runtime-only
+ENV PATH=/opt/devpod/seed/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+RUN python3 /opt/devpod/manifest.py --role testpod
 FROM common AS devpod
 RUN python3 /opt/devpod/install-tools.py
 ENV PATH=/opt/devpod/seed/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

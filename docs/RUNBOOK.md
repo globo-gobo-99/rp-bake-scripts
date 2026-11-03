@@ -115,3 +115,26 @@ named-volume tests prepare a fresh writable volume and verify initialization wit
 chown capability. Existing root-owned factory state requires an explicit reviewed repair;
 there is no automatic ownership sweep. Image release and immutable toolchain release are
 separate, so the fixed image reuses the same known tool versions without upgrading agents.
+
+## Test-Pod private runtime and upgrades
+
+The r4.3 Test-Pod image seeds only pinned Tailscale/tailscaled and Caddy, keeping agent and
+Node installations out of the smaller variant. Its actual runtime/OS manifest is generated
+at build time. Private HTTP stays on loopback behind a reviewed tailnet route.
+
+An older Test-Pod may already have an empty factory `toolchains/<release>/bin`. Ordinary
+bootstrap deliberately preserves it rather than silently upgrading active tools. Before
+selecting the new seed, inspect that exact directory as dev; proceed only if it contains
+nothing except an empty `bin` and `current` names that release. Preserve it under a distinct
+backup name and remove only the verified `current` symlink, then stop that Test-Pod and
+replace its image. Next bootstrap selects the new image seed. Preserve HOME, SSH keys,
+application releases, service state and volume; never apply an ownership or deletion sweep.
+Nonempty/user-modified toolchains require a separately reviewed refresh, not this factory repair.
+
+Private application supervisor definitions may be placed as dev in
+`/workspace/state/services/*.conf`; each is loaded by a separate application supervisor at the next container boot. A malformed
+application definition is logged without taking down SSH/Tailscale/Sync. Keep commands,
+logs and mutable state inside the persistent workspace, bind HTTP to loopback, and add only
+reviewed authenticated tailnet routes. There is no default application or public port exposed.
+`bash tests/service-recovery.sh` proves an opted-in application starts on both initial boot and
+replacement. Git revision switches do not require restarting the serving process.

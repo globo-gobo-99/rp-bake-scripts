@@ -8,6 +8,7 @@ not an upstream Runpod fork and no copied machine/account state.
 - [Shared versions](shared/README.md) — Resolved vendor versions and hashes.
 - [Templates](templates/README.md) — Portable provider container definitions.
 - [Runbook](docs/RUNBOOK.md) — Build, enrollment, recovery and limitations.
+- [Examples](examples/README.md) — Small Git delivery and recovery fixtures.
 - [Tests](tests/README.md) — Bootstrap and replacement recovery checks.
 - [Execution plan](docs/PLAN.md) — Stages and human checkpoints.
 
@@ -38,3 +39,7 @@ writable user-tool prefix. The older r4.1 image has the NFS ownership defect and
 GHCR supports private pulls through Runpod's native registry credentials. Keep the account's
 registry ID in private launch configuration; never check it into these portable definitions.
 The owner can separately make packages public for anonymous reuse.
+
+The r4.3 source adds a small pinned Test-Pod private-network/HTTP seed and isolated optional
+application supervision. Existing toolchain selections remain unchanged at boot. Its release
+manifest and provider verification are recorded after the immutable CI publication.

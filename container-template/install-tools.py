@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
 """Fetch pinned public artifacts; never reads host configuration or credentials."""
-import hashlib,io,json,os,shutil,subprocess,tarfile,tempfile,urllib.request
+import argparse,hashlib,io,json,os,shutil,subprocess,sys,tarfile,tempfile,urllib.request
 from pathlib import Path
-lock=json.loads(Path('/opt/devpod/tools.lock.json').read_text())
-seed=Path('/opt/devpod/seed');(seed/'bin').mkdir(parents=True,exist_ok=True)
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--runtime-only',action='store_true',help='Install the small Test-Pod private networking/HTTP runtime only')
+parser.add_argument('--lock',type=Path,default=Path('/opt/devpod/tools.lock.json'))
+parser.add_argument('--seed',type=Path,default=Path('/opt/devpod/seed'))
+args=parser.parse_args()
+lock=json.loads(args.lock.read_text())
+if args.runtime_only:
+    for required in ['tailscale','caddy']:assert required in lock['artifacts'],required
+seed=args.seed;(seed/'bin').mkdir(parents=True,exist_ok=True)
 for name,artifact in lock['artifacts'].items():
+    if args.runtime_only and name not in ['tailscale','caddy']:continue
     data=urllib.request.urlopen(artifact['url'],timeout=120).read()
     if hashlib.sha256(data).hexdigest()!=artifact['sha256']:raise RuntimeError('Checksum mismatch: '+name)
     if name in ['herdr','buildx']:
@@ -20,6 +28,7 @@ for name,artifact in lock['artifacts'].items():
             for binary in wanted:
                 source=next(p for p in root.rglob(binary) if p.is_file());shutil.copy2(source,seed/'bin'/binary)
                 (seed/'bin'/binary).chmod(0o755)
+if args.runtime_only:sys.exit(0)
 env=os.environ.copy();env['PATH']=str(seed/'bin')+':'+env['PATH']
 # npm's own CLI and app dependency graph are pinned independently of the Node bundle.
 subprocess.run([str(seed/'bin/npm'),'install','--global','--prefix',str(seed),'npm@'+lock['npm_cli']],env=env,check=True)

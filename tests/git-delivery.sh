@@ -27,7 +27,7 @@ printf '%s\n' 'selected revision B' > "$fixture/source/index.html"
 git -C "$fixture/source" add index.html
 git -C "$fixture/source" -c user.name='Delivery fixture' -c user.email=fixture@example.invalid commit -qm 'fixture B'
 revision_b=$(git -C "$fixture/source" rev-parse HEAD)
-git clone -q --bare "$fixture/source" "$fixture/origin.git"
+git -C "$fixture/source" bundle create "$fixture/source.bundle" --all
 chmod -R a+rX "$fixture"
 docker volume create --label devpod.fixture="$fixture_id" "$volume" >/dev/null
 created_volume=true
@@ -36,7 +36,7 @@ docker run --pull=never --rm --entrypoint chmod \
 start() {
  docker run --pull=never -d --name "$name" --label devpod.fixture="$fixture_id" \
   --mount "type=volume,source=$volume,target=/workspace,volume-nocopy" \
-  --mount "type=bind,source=$fixture/origin.git,target=/fixture/origin.git,readonly" "$image" >/dev/null
+  --mount "type=bind,source=$fixture/source.bundle,target=/fixture/source.bundle,readonly" "$image" >/dev/null
  created_container=true
  for _ in {1..30}; do
   if docker exec -u dev "$name" bash -lc 'test -d "$HOME" && test -w /workspace/state' 2>/dev/null; then return 0; fi
@@ -46,7 +46,7 @@ start() {
  return 1
 }
 start
-docker exec -u dev "$name" bash -lec 'mkdir -p /workspace/apps/demo/releases; git clone --no-checkout /fixture/origin.git /workspace/apps/demo/repo'
+docker exec -u dev "$name" bash -lec 'mkdir -p /workspace/apps/demo/releases; git clone --no-checkout /fixture/source.bundle /workspace/apps/demo/repo'
 deploy() {
  docker exec -u dev "$name" bash -lec '
   set -euo pipefail
