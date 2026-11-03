@@ -22,6 +22,16 @@
 - Cached model discovery is not inference readiness. Health is allowlisted; successful inference expires after five minutes and the immutable lease expiry always wins. Never generate on a health poll.
 - No request/response content logging. Only synthetic fixtures during verification. Actual Rootshell/client build, UI, login and device acceptance remain separate.
 
+## Required before activation
+
+The wrap-up review cleared this branch for source checkpoint publication only. Do not activate
+this transport until accepted-connection concurrency is bounded before worker creation and
+request headers/body have an absolute read deadline; the existing socket timeout only limits
+inactivity. Also return an explicit authentication failure for non-ASCII bearer text instead
+of allowing string `hmac.compare_digest` to raise `TypeError`. Preserve regression fixtures for
+both behaviors when implementing the fixes. Real provider/client/security acceptance remains
+pending; passing synthetic tests is not approval to deploy.
+
 ## Tasks
 
 1. Write failing HTTP fixtures for authentication, expiry/quota rejection before upstream, tool-role preservation, SSE, durable replay rejection and stale readiness. Implement `tools/inference_gateway.py` with standard-library HTTP, atomic private admission state and fixed Runpod transport.
