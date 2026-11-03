@@ -1,0 +1,16 @@
+{
+  "computeType": "CPU",
+  "workspaceMount": "/workspace",
+  "minimumNetworkVolumeGb": 10,
+  "storageTier": "HIGH_PERFORMANCE",
+  "persistentHome": "/workspace/home/dev",
+  "persistentTools": "/workspace/toolchains",
+  "imageEntrypoint": [
+    "/usr/bin/tini",
+    "--"
+  ],
+  "imageCmd": [
+    "/opt/devpod/start.sh"
+  ],
+  "launchSelection": "Supply CPU flavor/count, region and private volume separately; templates carry no account binding."
+}

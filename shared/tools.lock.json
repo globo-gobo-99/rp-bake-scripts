@@ -1,0 +1,51 @@
+{
+  "release": "2026.11.02-r4.1",
+  "resolved_at": "2026-11-03T00:21Z",
+  "upstream_runpod_commit": "d16ed4df6a254fb87932cfae81551240dd8791cd",
+  "artifacts": {
+    "node": {
+      "url": "https://nodejs.org/dist/v26.13.0/node-v26.13.0-linux-x64.tar.xz",
+      "sha256": "d28a96af6c38596f6d9d97c0ee531c13d238d757742387d1928de822d959e997"
+    },
+    "uv": {
+      "url": "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "sha256": "f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645"
+    },
+    "gh": {
+      "url": "https://github.com/cli/cli/releases/download/v2.103.3/gh_2.103.3_linux_amd64.tar.gz",
+      "sha256": "4c806978ffce1cec70853302a56d70ac6da4f19bae7adca4e1a8ab00633dd91d"
+    },
+    "herdr": {
+      "url": "https://github.com/herdrdev/herdr/releases/download/v0.9.5/herdr-linux-x86_64",
+      "sha256": "14d9e8bc8b4a9e0118d77c32266f76d461f09b40342eb23752960bd89f59929d"
+    },
+    "tuios": {
+      "url": "https://github.com/Gaurav-Gosain/tuios/releases/download/v0.12.1/tuios_0.12.1_Linux_x86_64.tar.gz",
+      "sha256": "4f68bac6e05d826b8c59b671b565c61b859dacedcb5d889160ba6d8624589b50"
+    },
+    "tailscale": {
+      "url": "https://pkgs.tailscale.com/stable/tailscale_1.104.5_amd64.tgz",
+      "sha256": "720cbbccbfc03d8b55df72afc19e5a72e31b0f65934700aa6fa38074d4ad7bf7"
+    },
+    "buildx": {
+      "url": "https://github.com/docker/buildx/releases/download/v0.38.1/buildx-v0.38.1.linux-amd64",
+      "sha256": "e25d5cd675092bb5d1d03632fdc46cdf3fede7b514dc5f023a105e00d3ce5ad4"
+    },
+    "docker": {
+      "url": "https://download.docker.com/linux/static/stable/x86_64/docker-29.9.2.tgz",
+      "sha256": "9ac225999fd5e863f7694c728ef23d480616b1e5639328fa309befd4243d69eb"
+    },
+    "caddy": {
+      "url": "https://github.com/caddyserver/caddy/releases/download/v2.11.7/caddy_2.11.7_linux_amd64.tar.gz",
+      "sha256": "727b91701a392de6ebc5027509f548bf39979e5216340d0faed8fa5e69c84f8b"
+    }
+  },
+  "npm": {
+    "codex": "0.166.0",
+    "claude": "2.1.316",
+    "pi": "1.5.0",
+    "ob": "0.0.14"
+  },
+  "python": "3.15.2",
+  "npm_cli": "12.2.1"
+}

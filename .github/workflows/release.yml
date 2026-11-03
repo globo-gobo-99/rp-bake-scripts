@@ -1,0 +1,50 @@
+name: release
+on:
+  push:
+    branches: [main]
+    paths: [Dockerfile, docker-bake.hcl, docker-bake.override.hcl, bake.sh, "shared/**", "container-template/**", "tests/**", ".github/workflows/release.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      REVISION: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Unit tests and Bake validation
+        run: |
+          python3 -m unittest discover -s tests -v
+          ./bake.sh --print
+          ./bake.sh --check
+      - name: Build and load
+        run: ./bake.sh --load
+      - name: Recovery smoke
+        run: |
+          bash tests/smoke.sh
+          bash tests/smoke.sh testpod
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish immutable release
+        run: |
+          images=$(./bake.sh --print 2>/dev/null | python3 -c 'import json,sys; print(" ".join(t["tags"][0] for t in json.load(sys.stdin)["target"].values()))')
+          for image in $images; do
+            if docker manifest inspect "$image" >/dev/null 2>&1; then
+              echo "Release already exists: $image; increment RELEASE_VERSION before publishing." >&2
+              exit 1
+            fi
+          done
+          ./bake.sh --push --metadata-file metadata.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence
+          path: |
+            metadata.json
+            evidence/

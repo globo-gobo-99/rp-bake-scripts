@@ -1,0 +1,11 @@
+export HOME=/workspace/home/dev
+export PATH=/workspace/toolchains/current/bin:/workspace/home/dev/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export npm_config_prefix=/workspace/toolchains/current
+export DOCKER_CLI_PLUGIN_EXTRA_DIRS=/workspace/toolchains/current/lib/docker/cli-plugins
+export UV_TOOL_DIR=/workspace/toolchains/uv-tools
+export UV_TOOL_BIN_DIR=/workspace/home/dev/.local/bin
+export XDG_CONFIG_HOME=/workspace/home/dev/.config
+export XDG_DATA_HOME=/workspace/home/dev/.local/share
+export XDG_CACHE_HOME=/workspace/home/dev/.cache
+export TAILSCALE_SOCKET=/workspace/state/tailscale/tailscaled.sock
+export UV_PYTHON_INSTALL_DIR=/workspace/toolchains/current/python

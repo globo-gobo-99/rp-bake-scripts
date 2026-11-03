@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+source /etc/devpod-env
+mkdir -p "$HOME/.local/bin" "$HOME/.vscode-cli"
+if [[ ! -x "$HOME/.local/bin/code" ]]; then
+ tmp=$(mktemp -d)
+ trap 'rm -rf "$tmp"' EXIT
+ curl -fL 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' -o "$tmp/code.tar.gz"
+ tar -xzf "$tmp/code.tar.gz" -C "$tmp"
+ install -m755 "$tmp/code" "$HOME/.local/bin/code"
+ "$HOME/.local/bin/code" --version > "$HOME/.vscode-cli/resolved-version.txt"
+ sha256sum "$HOME/.local/bin/code" > "$HOME/.vscode-cli/sha256.txt"
+fi
+printf 'Installed Microsoft CLI in persistent HOME. Run code tunnel directly to review/accept license and sign in.\n'
