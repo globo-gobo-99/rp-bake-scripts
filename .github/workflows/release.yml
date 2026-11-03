@@ -2,7 +2,7 @@ name: release
 on:
   push:
     branches: [main]
-    paths: [Dockerfile, docker-bake.hcl, docker-bake.override.hcl, bake.sh, "shared/**", "container-template/**", "tests/**", ".github/workflows/release.yml"]
+    paths: [Dockerfile, docker-bake.hcl, docker-bake.override.hcl, bake.sh, "shared/**", "container-template/**", ".github/workflows/release.yml"]
   workflow_dispatch:
 permissions:
   contents: read

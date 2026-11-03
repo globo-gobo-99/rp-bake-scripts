@@ -74,6 +74,16 @@ is the supported build/publish route. Use Git to deliver selected image/source r
 Test-Pod and keep a previous digest for rollback. Running a nested container locally inside
 Dev-Pod is unavailable on this platform; remote Docker requires a separately authorized builder.
 
+## Test-Pod Git delivery and rollback
+
+`bash tests/git-delivery.sh` verifies the local static-application path: clone a synthetic Git
+remote, archive a selected full commit into `/workspace/apps/demo/releases/<commit>`, atomically
+switch a `current` symlink, serve loopback HTTP with Caddy, select a newer commit, then roll back
+to the recorded prior commit. Replacement preserves releases, repository and selected pointer.
+The fixture explicitly relaunches its server; automatic app startup is a separate deployment
+configuration. Real Test-Pod SSH/Git transport and authenticated preview routing need provider
+verification. Keep the repository and release tree outside the synced vault on Test-Pod.
+
 ## Recovery
 
 Write valuable state only below `/workspace`. Record the image digest and private volume ID.

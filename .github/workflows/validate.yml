@@ -1,0 +1,33 @@
+name: validate
+on:
+  push:
+    branches: [main]
+    paths: ["tests/**", "docs/**", ".github/workflows/validate.yml"]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Unit tests and Bake validation
+        run: |
+          python3 -m unittest discover -s tests -v
+          ./bake.sh --print
+          ./bake.sh --check
+      - name: Build and load
+        run: ./bake.sh --load
+      - name: Recovery and Git delivery
+        run: |
+          bash tests/smoke.sh
+          bash tests/smoke.sh testpod
+          bash tests/git-delivery.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-evidence
+          path: evidence/
