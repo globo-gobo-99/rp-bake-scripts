@@ -5,6 +5,7 @@ container-template startup and shared Buildx Bake conventions. Independent publi
 not an upstream Runpod fork and no copied machine/account state.
 
 - [Container startup](container-template/README.md) — Persistent home and supervised services.
+- [Image releases](releases/README.md) — Immutable manifests and verification records.
 - [Shared versions](shared/README.md) — Resolved vendor versions and hashes.
 - [Templates](templates/README.md) — Portable provider container definitions.
 - [Runbook](docs/RUNBOOK.md) — Build, enrollment, recovery and limitations.
@@ -41,5 +42,8 @@ registry ID in private launch configuration; never check it into these portable 
 The owner can separately make packages public for anonymous reuse.
 
 The r4.3 source adds a small pinned Test-Pod private-network/HTTP seed and isolated optional
-application supervision. Existing toolchain selections remain unchanged at boot. Its release
-manifest and provider verification are recorded after the immutable CI publication.
+application supervision. Existing toolchain selections remain unchanged at boot. Both variants passed [r4.3 CI](https://github.com/gobo-99/dev-pod/actions/runs/41563300075),
+including replacement and malformed-application isolation. The Dev-Pod provider template
+remains on live-proven r4.2 while its human login is active; Test-Pod advances to r4.3.
+See the current manifest for both exact template images; newer images never auto-upgrade
+an existing toolchain or running Pod.

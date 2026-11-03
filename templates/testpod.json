@@ -1,6 +1,6 @@
 {
-  "name": "testpod-2026.11.02-r4.2",
-  "image": "ghcr.io/gobo-99/test-pod@sha256:373068aca5c3207119895b8d3f2482891502ecd2e5cd11221cd6edae03cefc9e",
+  "name": "testpod-2026.11.02-r4.3",
+  "image": "ghcr.io/gobo-99/test-pod@sha256:d455ce4bb46787382559528e84fdc339832566213e878691695ff984fa07e131",
   "category": "CPU",
   "disk": 10,
   "ports": [
