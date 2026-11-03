@@ -2,7 +2,7 @@
 # Local-only integration fixture: no cloud launch, implicit pull, or real project data.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-image=${DEVPOD_IMAGE:-ghcr.io/gobo-99/test-pod:2026.11.02-r4.2}
+image=${DEVPOD_IMAGE:-$(./bake.sh --print 2>/dev/null | python3 -c 'import json,sys;print(json.load(sys.stdin)["target"]["testpod"]["tags"][0])')}
 docker image inspect "$image" >/dev/null
 fixture=$(mktemp -d)
 fixture_id=$(python3 -c 'import uuid;print(uuid.uuid4().hex[:16])')
@@ -17,6 +17,7 @@ cleanup() {
 }
 trap cleanup EXIT
 mkdir -p evidence/testpod-git
+printf '%s\n' "$image" > evidence/testpod-git/tested-image.txt
 git init -q -b main "$fixture/source"
 printf '%s\n' 'selected revision A' > "$fixture/source/index.html"
 git -C "$fixture/source" add index.html

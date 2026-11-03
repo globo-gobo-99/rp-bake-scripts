@@ -11,7 +11,7 @@ Run `python3 -m unittest discover -s tests -v`, then after `./bake.sh --load` ru
 Bake, must already exist locally, and is never pulled implicitly. Evidence is disposable
 and excluded from Git; CI uploads it separately.
 
-`bash tests/git-delivery.sh` uses the already-loaded r4.2 Test-Pod image, a public synthetic
+`bash tests/git-delivery.sh` uses the already-loaded Bake-selected Test-Pod image, a public synthetic
 Git fixture and loopback-only HTTP inside local Docker. It proves selected A→B→A revision
 delivery and persistence after replacement. It uses file transport and explicitly relaunches
 the demo server after replacement; it does not prove provider transport, private preview
