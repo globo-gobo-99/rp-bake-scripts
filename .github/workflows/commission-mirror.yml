@@ -1,0 +1,31 @@
+name: commissioning mirror
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  packages: read
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Mirror released Dev-Pod for 24-hour commissioning
+        run: |
+          source=$(python3 -c 'import json;print(json.load(open("release-manifest.json"))["images"]["devpod"])')
+          mirror=ttl.sh/gobo-99-dev-pod-canonical-01a19ec6:24h
+          docker pull "$source"
+          docker tag "$source" "$mirror"
+          docker push "$mirror" | tee mirror-push.log
+          docker image inspect "$mirror" > mirror-image.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: commissioning-mirror
+          path: |
+            mirror-push.log
+            mirror-image.json
