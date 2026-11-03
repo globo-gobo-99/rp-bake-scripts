@@ -15,7 +15,7 @@ docker volume create "$volume" >/dev/null
 if docker run --pull=never --rm "$image" >"$out/missing-mount.log" 2>&1; then
  echo 'ERROR: unmounted bootstrap unexpectedly succeeded' >&2; exit 1
 fi
-rg 'Expected durable mount' "$out/missing-mount.log"
+grep -F 'Expected durable mount' "$out/missing-mount.log"
 start() {
  docker run --pull=never -d --name "$name" -p 127.0.0.1::22 -e PUBLIC_KEY="$public_key" -v "$volume:/workspace" "$image" >/dev/null
  port=$(docker port "$name" 22/tcp | cut -d: -f2)
